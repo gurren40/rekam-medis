@@ -5,7 +5,7 @@ class RekamMedis_model extends CI_Model{
 		$this->load->database();
 	}
 	
-	public function create($data){
+	public function createRM($data){
 		if($this->db->insert('RekamMedis', $data)){
 			return true;
 		}
@@ -14,12 +14,13 @@ class RekamMedis_model extends CI_Model{
 		}
 	}
 	
-	public function getByID($id){
+	public function getByRMID($id,$userID){
 		$this->db->select('*');
 		$this->db->from('RekamMedis');
+		$this->db->where('userID',$userID);
 		$this->db->where('ID',$id);
 		$query = $this->db->get();
-		if($query->num_rows() == 1){
+		if($query->num_rows() > 0){
 			return $query->row_array();
 		}
 		else{
