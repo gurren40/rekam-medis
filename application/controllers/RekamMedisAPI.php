@@ -52,6 +52,9 @@ class RekamMedisAPI extends REST_Controller {
 					$this->response(array('status' => 'error when create rekam medis'));
 				}
 			}
+			else if($userID < 0){
+				$this->response(array('status' => 'expired'));
+			}
 			else{
 				$this->response(array('status' => 'key is invalid'));
 			}
@@ -73,6 +76,9 @@ class RekamMedisAPI extends REST_Controller {
 					$this->response(array('status' => 'error when get rekam medis data'));
 				}
 			}
+			else if($userID < 0){
+				$this->response(array('status' => 'expired'));
+			}
 			else{
 				$this->response(array('status' => 'key is invalid'));
 			}
@@ -93,6 +99,9 @@ class RekamMedisAPI extends REST_Controller {
 				else{
 					$this->response(array('status' => 'error when get rekam medis data'));
 				}
+			}
+			else if($userID < 0){
+				$this->response(array('status' => 'expired'));
 			}
 			else{
 				$this->response(array('status' => 'key is invalid'));

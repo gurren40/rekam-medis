@@ -34,7 +34,12 @@ class AuthKey_model extends CI_Model{
 		$query = $this->db->get();
 		if($query->num_rows() == 1){
 			$result = $query->row_array();
-			return $result['owner'];
+			if(time() > strtotime($result['dateexpired'])){
+				return -1;
+			}
+			else{
+				return $result['owner'];
+			}
 		}
 		else{
 			return 0;
