@@ -34,7 +34,7 @@ class RekamMedisAPI extends REST_Controller {
 				$image = '';
 				$imageName = '';
 				if(!$this->post('imageFile')){
-					$imageName = 'none';
+					$imageName = 'none.jpg';
 				}
 				else{
 					//file_put_contents('rmimage'.'/'.'base64qt.txt',$this->post('imageFile'));
