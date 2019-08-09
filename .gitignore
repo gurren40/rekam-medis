@@ -1,2 +1,3 @@
 /rmimage/*
 /application/db/*.sqlite
+/application/config/database.php
