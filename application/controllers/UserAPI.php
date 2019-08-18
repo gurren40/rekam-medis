@@ -74,7 +74,7 @@ class UserAPI extends REST_Controller {
 					$current = date("Y-m-d",strtotime($date));
 					$next = date("Y-m-d",strtotime($date."+1 month"));
 					$randKey = $this->random_str();
-					$createKey = array('owner' => $result['ID'],'key' => $randKey,'datecreated' => $current,'dateexpired' => $next);
+					$createKey = array('owner' => $result['ID'],'keyss' => $randKey,'datecreated' => $current,'dateexpired' => $next);
 					if($this->AuthKey_model->createKey($createKey)){
 						$this->response(array('key' => $randKey),201);
 					}

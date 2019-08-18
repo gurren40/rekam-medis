@@ -30,7 +30,7 @@ class AuthKey_model extends CI_Model{
 	public function verifyKey($key) : int{
 		$this->db->select('*');
 		$this->db->from('AuthKey');
-		$this->db->where('key',$key);
+		$this->db->where('keyss',$key);
 		$query = $this->db->get();
 		if($query->num_rows() == 1){
 			$result = $query->row_array();
