@@ -6,10 +6,23 @@ class User_model extends CI_Model{
 		$this->load->database();
 	}
 	
-	public function getByUsername($username){
+	public function getByNIK($NIK){
 		$this->db->select('*');
 		$this->db->from('User');
-		$this->db->where('username',$username);
+		$this->db->where('NIK',$NIK);
+		$query = $this->db->get();
+		if($query->num_rows() == 1){
+			return $query->row_array();
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	public function getByID($id){
+		$this->db->select('*');
+		$this->db->from('User');
+		$this->db->where('ID',$id);
 		$query = $this->db->get();
 		if($query->num_rows() == 1){
 			return $query->row_array();

@@ -25,11 +25,11 @@ class RekamMedisAPI extends REST_Controller {
 	}
 	
     function create_post(){
-		if(!$this->post('keys')){
+		if(!$this->post('key')){
 			$this->response(array('status' => 'key is not posted'));
 		}
 		else {
-			$userID = $this->AuthKey_model->verifyKey($this->post('keys'));
+			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
 			if($userID > 0){
 				$image = '';
 				$imageName = '';
@@ -37,12 +37,21 @@ class RekamMedisAPI extends REST_Controller {
 					$imageName = 'none.jpg';
 				}
 				else{
-					//file_put_contents('rmimage'.'/'.'base64qt.txt',$this->post('imageFile'));
 					$image = hex2bin($this->post('imageFile'));
-					$imageName = $this->random_str(32).'.'.'jpg';
+					$imageName = $this->random_str().'.'.'jpg';
 				}
 				$imagePath = 'rmimage'.'/'.$imageName;
-				$newRM = array('userID' => $userID,'Nama' => $this->post('Nama'),'NIK' => $this->post('NIK'),'Umur' => $this->post('Umur'),'JK' => $this->post('JK'),'Alamat' => $this->post('Alamat'),'Tegangan' => $this->post('Tegangan'),'mAs' => $this->post('mAs'),'mGy' => $this->post('mGy'),'OutputRadiasi' => $this->post('OutputRadiasi'),'Esak' => $this->post('Esak'),'DAP' => $this->post('DAP'),'imageName' => $imageName);
+				$newRM = array('userID' => $userID,
+								'Nama' => $this->post('Nama'),
+								'Tegangan' => $this->post('Tegangan'),
+								'mAs' => $this->post('mAs'),
+								'mGy' => $this->post('mGy'),
+								'OutputRadiasi' => $this->post('OutputRadiasi'),
+								'Esak' => $this->post('Esak'),
+								'DAP' => $this->post('DAP'),
+								'imageName' => $imageName,
+								'datecreated' => date("Y-m-d")
+						 );
 				if($this->RekamMedis_model->createRM($newRM)){
 					if($this->post('imageFile')){
 						file_put_contents($imagePath,$image);
@@ -63,11 +72,11 @@ class RekamMedisAPI extends REST_Controller {
     }
     
     function get_post($RMID){
-		if(!$this->post('keys')){
+		if(!$this->post('key')){
 			$this->response(array('status' => 'key is not posted'));
 		}
 		else {
-			$userID = $this->AuthKey_model->verifyKey($this->post('keys'));
+			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
 			if($userID > 0){
 				$result = $this->RekamMedis_model->getByRMID($RMID,$userID);
 				if(!($result == 0)){
@@ -87,11 +96,11 @@ class RekamMedisAPI extends REST_Controller {
 	}
 	
 	function getAll_post(){
-		if(!$this->post('keys')){
+		if(!$this->post('key')){
 			$this->response(array('status' => 'key is not posted'));
 		}
 		else {
-			$userID = $this->AuthKey_model->verifyKey($this->post('keys'));
+			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
 			if($userID > 0){
 				$result = $this->RekamMedis_model->getByUserID($userID);
 				if(!($result == 0)){

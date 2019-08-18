@@ -24,15 +24,21 @@ class UserAPI extends REST_Controller {
 	}
 	
     function create_post(){
-		if(!$this->post('username')){
-			$this->response(array('status' => 'username invalid'));
+		if(!$this->post('NIK')){
+			$this->response(array('status' => 'NIK invalid'));
 		}
 		else if(!$this->post('password')){
 			$this->response(array('status' => 'password invalid'));
 		}
 		else{
 			$password = password_hash($this->post('password'),PASSWORD_DEFAULT);
-			$create = array('username' => $this->post('username'), 'password' => $password);
+			$create = array('NIK' => $this->post('NIK'),
+							'password' => $password,
+							'Nama' => $this->post('Nama'),
+							'Umur' => $this->post('Umur'),
+							'JK' => $this->post('JK'),
+							'Alamat' => $this->post('Alamat')
+					  );
 			$result = $this->User_model->createUser($create);
 			 
 			if($result === false)
@@ -48,16 +54,16 @@ class UserAPI extends REST_Controller {
     }
     
     function authkey_post(){
-		if(!$this->post('username')){
-			$this->response(array('status' => 'username invalid'));
+		if(!$this->post('NIK')){
+			$this->response(array('status' => 'NIK invalid'));
 		}
 		else if(!$this->post('password')){
 			$this->response(array('status' => 'password invalid'));
 		}
 		else{
-			$result = $this->User_model->getByUsername($this->post('username'));
+			$result = $this->User_model->getByNIK($this->post('NIK'));
 			if(!$result == 0){
-				$username = $result['username'];
+				$NIK = $result['NIK'];
 				$passwordhash = $result['password'];
 				$isvalid = password_verify($this->post('password'),$passwordhash);
 				if(!$isvalid){
@@ -67,18 +73,43 @@ class UserAPI extends REST_Controller {
 					$date = date("Y-m-d");
 					$current = date("Y-m-d",strtotime($date));
 					$next = date("Y-m-d",strtotime($date."+1 month"));
-					$randKey = $this->random_str(32);
-					$createKey = array('owner' => $result['ID'],'keys' => $randKey,'datecreated' => $current,'dateexpired' => $next);
+					$randKey = $this->random_str();
+					$createKey = array('owner' => $result['ID'],'key' => $randKey,'datecreated' => $current,'dateexpired' => $next);
 					if($this->AuthKey_model->createKey($createKey)){
 						$this->response(array('key' => $randKey),201);
 					}
 					else{
-						$this->response(array('status' => 'error when create keys'));
+						$this->response(array('status' => 'error when create key'));
 					}
 				}
 			}
 			else{
 				$this->response(array('status' => 'no such user'));
+			}
+		}
+	}
+	
+	function get_post(){
+		if(!$this->post('key')){
+			$this->response(array('status' => 'key is not posted'));
+		}
+		else{
+			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
+			if($userID > 0){
+				$result = $this->User_model->getByID($userID);
+				if(!($result == 0)){
+					$toSend = array('Nama' => $result['Nama'],'Umur' => $result['Umur'],'JK' => $result['JK'],'Alamat' => $result['Alamat']);
+					$this->response($toSend);
+				}
+				else{
+					$this->response(array('status' => 'error when get rekam medis data'));
+				}
+			}
+			else if($userID < 0){
+				$this->response(array('status' => 'expired'));
+			}
+			else{
+				$this->response(array('status' => 'key is invalid'));
 			}
 		}
 	}
