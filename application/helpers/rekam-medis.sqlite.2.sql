@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `RekamMedis` (
 CREATE TABLE IF NOT EXISTS `AuthKey` (
 	`ID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`owner`	INTEGER NOT NULL,
-	`key`	TEXT NOT NULL UNIQUE,
+	`keyss`	TEXT NOT NULL UNIQUE,
 	`datecreated`	TEXT,
 	`dateexpired`	TEXT,
 	FOREIGN KEY(`owner`) REFERENCES `User`(`ID`)
@@ -38,6 +38,6 @@ CREATE INDEX IF NOT EXISTS `rekamMedisIDIndex` ON `RekamMedis` (
 	`userID`
 );
 CREATE INDEX IF NOT EXISTS `keyIndex` ON `AuthKey` (
-	`key`
+	`keyss`
 );
 COMMIT;
