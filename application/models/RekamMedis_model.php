@@ -28,6 +28,19 @@ class RekamMedis_model extends CI_Model{
 		}
 	}
 	
+	public function getByPureRMID($id){
+		$this->db->select('*');
+		$this->db->from('RekamMedis');
+		$this->db->where('ID',$id);
+		$query = $this->db->get();
+		if($query->num_rows() > 0){
+			return $query->row_array();
+		}
+		else{
+			return 0;
+		}
+	}
+	
 	public function getByUserID($id){
 		$this->db->select('*');
 		$this->db->from('RekamMedis');

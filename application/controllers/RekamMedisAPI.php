@@ -78,12 +78,23 @@ class RekamMedisAPI extends REST_Controller {
 		else {
 			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
 			if($userID > 0){
-				$result = $this->RekamMedis_model->getByRMID($RMID,$userID);
-				if(!($result == 0)){
-					$this->response($result);
+				if(!$this->User_model->amIadmin($userID)){
+					$result = $this->RekamMedis_model->getByRMID($RMID,$userID);
+					if(!($result == 0)){
+						$this->response($result);
+					}
+					else{
+						$this->response(array('status' => 'error when get rekam medis data'));
+					}
 				}
 				else{
-					$this->response(array('status' => 'error when get rekam medis data'));
+					$result = $this->RekamMedis_model->getByPureRMID($RMID);
+					if(!($result == 0)){
+						$this->response($result);
+					}
+					else{
+						$this->response(array('status' => 'error when get rekam medis data'));
+					}					
 				}
 			}
 			else if($userID < 0){
@@ -111,6 +122,35 @@ class RekamMedisAPI extends REST_Controller {
 				}
 			}
 			else if($userID < 0){
+				$this->response(array('status' => 'expired'));
+			}
+			else{
+				$this->response(array('status' => 'key is invalid'));
+			}
+		}
+	}
+	
+	function getByUser_post($userID){
+		if(!$this->post('key')){
+			$this->response(array('status' => 'key is not posted'));
+		}
+		else {
+			$adminID = $this->AuthKey_model->verifyKey($this->post('key'));
+			if($adminID > 0){
+				if(!$this->User_model->amIadmin($adminID)){
+					$this->response(array('status' => 'you are not admin or something wrong happend'));
+				}
+				else{
+					$result = $this->RekamMedis_model->getByUserID($userID);
+					if(!($result == 0)){
+						$this->response($result);
+					}
+					else{
+						$this->response(array('status' => 'error when get rekam medis data'));
+					}
+				}
+			}
+			else if($adminID < 0){
 				$this->response(array('status' => 'expired'));
 			}
 			else{

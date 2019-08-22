@@ -32,9 +32,25 @@ class User_model extends CI_Model{
 		}
 	}
 	
-	public function getAllUser(){
-		$this->db->select('*');
+	public function amIadmin($id){
+		$this->db->select('Role');
 		$this->db->from('User');
+		$this->db->where('ID',$id);
+		$query = $this->db->get();
+		if($query->num_rows() == 1){
+			$result = $query->row_array();
+			if($result['Role'] == 1) return true;
+			else return false;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function getAllUser(){
+		$this->db->select('ID, NIK, Nama, Umur, JK, Alamat');
+		$this->db->from('User');
+		$this->db->where('Role',0);
 		$query = $this->db->get();
 		if($query->num_rows() > 0){
 			return $query->result_array();
