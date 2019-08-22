@@ -24,8 +24,8 @@ class AdminAPI extends REST_Controller {
 	}
 	
     function create_post(){
-		if(!$this->post('Username')){
-			$this->response(array('status' => 'Username invalid'));
+		if(!$this->post('NIK')){
+			$this->response(array('status' => 'NIK invalid'));
 		}
 		else if(!$this->post('password')){
 			$this->response(array('status' => 'password invalid'));
@@ -37,7 +37,7 @@ class AdminAPI extends REST_Controller {
 			}
 			else{
 				$password = password_hash($this->post('password'),PASSWORD_DEFAULT);
-				$create = array('NIK' => $this->post('Username'),
+				$create = array('NIK' => $this->post('NIK'),
 								'password' => $password,
 								'Nama' => $this->post('Nama'),
 								'Umur' => $this->post('Umur'),
