@@ -2,7 +2,7 @@
 require (APPPATH.'/libraries/REST_Controller.php');
 use Restserver\Libraries\REST_Controller;
 
-class UserAPI extends REST_Controller {
+class AdminAPI extends REST_Controller {
 	    
     public function __construct(){
 		parent::__construct();
@@ -31,24 +31,28 @@ class UserAPI extends REST_Controller {
 			$this->response(array('status' => 'password invalid'));
 		}
 		else{
-			$password = password_hash($this->post('password'),PASSWORD_DEFAULT);
-			$create = array('NIK' => $this->post('NIK'),
-							'password' => $password,
-							'Nama' => $this->post('Nama'),
-							'Umur' => $this->post('Umur'),
-							'JK' => $this->post('JK'),
-							'Alamat' => $this->post('Alamat')
-					  );
-			$result = $this->User_model->createUser($create);
-			 
-			if($result === false)
-			{
-				$this->response(array('status' => 'failed'));
+			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
+			if(!$this->User_model->amIadmin($userID)){
+				$this->response(array('status' => 'you are not admin or something wrong happend'));
 			}
-			 
-			else
-			{
-				$this->response(array('status' => 'success'),201);
+			else{
+				$password = password_hash($this->post('password'),PASSWORD_DEFAULT);
+				$create = array('NIK' => $this->post('NIK'),
+								'password' => $password,
+								'Nama' => $this->post('Nama'),
+								'Umur' => $this->post('Umur'),
+								'JK' => $this->post('JK'),
+								'Alamat' => $this->post('Alamat'),
+								'Role' => 1
+						  );
+				$result = $this->User_model->createUser($create);
+				 
+				if($result === false){
+					$this->response(array('status' => 'failed'));
+				}
+				else{
+					$this->response(array('status' => 'success'),201);
+				}
 			}
 		}
     }
@@ -64,6 +68,9 @@ class UserAPI extends REST_Controller {
 			$result = $this->User_model->getByNIK($this->post('NIK'));
 			if(!$result == 0){
 				if(!$this->User_model->amIadmin($result['ID'])){
+					$this->response(array('status' => 'you are not admin or something wrong happend'));
+				}
+				else{
 					$NIK = $result['NIK'];
 					$passwordhash = $result['password'];
 					$isvalid = password_verify($this->post('password'),$passwordhash);
@@ -84,9 +91,6 @@ class UserAPI extends REST_Controller {
 						}
 					}
 				}
-				else{
-					$this->response(array('status' => 'do not login as admin'));
-				}
 			}
 			else{
 				$this->response(array('status' => 'no such user'));
@@ -101,41 +105,17 @@ class UserAPI extends REST_Controller {
 		else{
 			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
 			if($userID > 0){
-				$result = $this->User_model->getByID($userID);
-				if(!($result == 0)){
-					$toSend = array('Nama' => $result['Nama'],'Umur' => $result['Umur'],'JK' => $result['JK'],'Alamat' => $result['Alamat']);
-					$this->response($toSend);
-				}
-				else{
-					$this->response(array('status' => 'error when get user data'));
-				}
-			}
-			else if($userID < 0){
-				$this->response(array('status' => 'expired'));
-			}
-			else{
-				$this->response(array('status' => 'key is invalid'));
-			}
-		}
-	}
-	
-	function getAll_post(){
-		if(!$this->post('key')){
-			$this->response(array('status' => 'key is not posted'));
-		}
-		else{
-			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
-			if($userID > 0){
 				if(!$this->User_model->amIadmin($userID)){
 					$this->response(array('status' => 'you are not admin or something wrong happend'));
 				}
 				else{
-					$result = $this->User_model->getAllUser();
+					$result = $this->User_model->getByID($userID);
 					if(!($result == 0)){
-						$this->response($result);
+						$toSend = array('Nama' => $result['Nama'],'Umur' => $result['Umur'],'JK' => $result['JK'],'Alamat' => $result['Alamat']);
+						$this->response($toSend);
 					}
 					else{
-						$this->response(array('status' => 'error when get All User data'));
+						$this->response(array('status' => 'error when get rekam medis data'));
 					}
 				}
 			}

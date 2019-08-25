@@ -75,12 +75,15 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => APPPATH.'db/rekam-medis.sqlite',
+	//mysql
+	//'hostname' => 'localhost',
+	//'username' => '',
+	//'password' => '',
 	//'dbdriver' => 'mysqli',
-	'dbdriver' => 'sqlite3',
+	//'database' => 'rekam-medis',
+	//sqlite
+	//'database' => APPPATH.'db/rekam-medis.sqlite',
+	//'dbdriver' => 'sqlite3',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
