@@ -11,16 +11,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>mui/css/mui.css">
-	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>mui/extra/mui-colors.css">
-	<script type = 'text/javascript' src = "<?php echo base_url(); ?>mui/js/mui.js"></script>
+	<link rel = "stylesheet" type = "text/css" href = "mui/css/mui.css">
+	<script type = 'text/javascript' src = "mui/js/mui.js"></script>
 </head>
 <body>
 	<div class="mui-container">
-		<form class="mui-form" target="<?php echo base_url(); ?>User/authkey">
+		<form class="mui-form" target="User/authkey">
 			<br>
 			<div align="center">
-				<img src="<?php echo base_url(); ?>image/logo.png" align="center" width="27%" height="27%">
+				<img src="image/logo.png" align="center" width="27%" height="27%">
 			</div>
 			<h1 align="center">Selamat Datang di Aplikasi Rekam Medis</h1>
 			<div class="mui-textfield">

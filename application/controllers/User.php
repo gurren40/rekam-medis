@@ -17,20 +17,20 @@ class User extends CI_Controller {
 	}
 	
     function create(){
-		if(!$this->post('NIK')){
+		if(!$this->input->post('NIK')){
 			$this->response(array('status' => 'NIK invalid'));
 		}
-		else if(!$this->post('password')){
+		else if(!$this->input->post('password')){
 			$this->response(array('status' => 'password invalid'));
 		}
 		else{
-			$password = password_hash($this->post('password'),PASSWORD_DEFAULT);
-			$create = array('NIK' => $this->post('NIK'),
+			$password = password_hash($this->input->post('password'),PASSWORD_DEFAULT);
+			$create = array('NIK' => $this->input->post('NIK'),
 							'password' => $password,
-							'Nama' => $this->post('Nama'),
-							'Umur' => $this->post('Umur'),
-							'JK' => $this->post('JK'),
-							'Alamat' => $this->post('Alamat')
+							'Nama' => $this->input->post('Nama'),
+							'Umur' => $this->input->post('Umur'),
+							'JK' => $this->input->post('JK'),
+							'Alamat' => $this->input->post('Alamat')
 					  );
 			$result = $this->User_model->createUser($create);
 			 
@@ -46,20 +46,24 @@ class User extends CI_Controller {
 		}
     }
     
+    function demo(){
+		$this->load->view('rmlist');
+	}
+    
     function authkey(){
-		if(!$this->post('NIK')){
+		if(!$this->input->post('NIK')){
 			$this->response(array('status' => 'NIK invalid'));
 		}
-		else if(!$this->post('password')){
+		else if(!$this->input->post('password')){
 			$this->response(array('status' => 'password invalid'));
 		}
 		else{
-			$result = $this->User_model->getByNIK($this->post('NIK'));
+			$result = $this->User_model->getByNIK($this->input->post('NIK'));
 			if(!$result == 0){
 				if(!$this->User_model->amIadmin($result['ID'])){
 					$NIK = $result['NIK'];
 					$passwordhash = $result['password'];
-					$isvalid = password_verify($this->post('password'),$passwordhash);
+					$isvalid = password_verify($this->input->post('password'),$passwordhash);
 					if(!$isvalid){
 						$this->response(array('status' => 'password invalid'));
 					}
@@ -88,11 +92,11 @@ class User extends CI_Controller {
 	}
 	
 	function get(){
-		if(!$this->post('key')){
+		if(!$this->input->post('key')){
 			$this->response(array('status' => 'key is not posted'));
 		}
 		else{
-			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
+			$userID = $this->AuthKey_model->verifyKey($this->input->post('key'));
 			if($userID > 0){
 				$result = $this->User_model->getByID($userID);
 				if(!($result == 0)){
@@ -113,11 +117,11 @@ class User extends CI_Controller {
 	}
 	
 	function getAll(){
-		if(!$this->post('key')){
+		if(!$this->input->post('key')){
 			$this->response(array('status' => 'key is not posted'));
 		}
 		else{
-			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
+			$userID = $this->AuthKey_model->verifyKey($this->input->post('key'));
 			if($userID > 0){
 				if(!$this->User_model->amIadmin($userID)){
 					$this->response(array('status' => 'you are not admin or something wrong happend'));
