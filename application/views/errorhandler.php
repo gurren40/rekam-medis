@@ -17,24 +17,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 	<div class="mui-container">
-		<form class="mui-form" method="post" action="<?php echo base_url(); ?>User/authkey">
-			<br>
-			<div align="center">
-				<img src="<?php echo base_url(); ?>image/logo.png" align="center" width="27%" height="27%">
-			</div>
-			<h1 align="center">Selamat Datang di Aplikasi Rekam Medis</h1>
-			<div class="mui-textfield">
-				<input name="NIK" type="text" pattern="[0-9]+">
-				<label>NIK :</label>
-			</div>
-			<div class="mui-textfield">
-				<input name="password" type="password">
-				<label>Password :</label>
-			</div>
-			<div align="center">
-				<button type="submit" class="mui-btn mui-btn--raised">Login</button>
-			</div>
-		</form>
+		<h2>There is an error occurred</h2>
+		<p><?php echo $error; ?></p>
+		<div align="center">
+			<button onclick="location.href='<?php echo base_url(); ?>'" class="mui-btn mui-btn--raised">Home</button>
+			<button onclick="location.href='<?php echo base_url(); ?>user/logout'" class="mui-btn mui-btn--raised">Logout</button>
+		</div>
 	</div>
 </body>
 </html>

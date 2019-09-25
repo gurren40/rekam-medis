@@ -11,9 +11,28 @@ class User extends CI_Controller {
 		$this->load->helper('url');
 	}
 	
-    function index(){
-		//$this->response(array('status' => 'nothing'));
-		$this->load->view('login');
+    function login(){
+		if($this->session->has_userdata('key')){
+			$data['error'] = "You have logged in. go to home or logout";
+			$this->load->view('errorhandler',$data);
+		}
+		else{
+			$this->load->view('login');
+		}
+	}
+	
+	function index(){
+		if(!$this->session->has_userdata('key')){
+			redirect('user/login','refresh');
+		}
+		$userID = $this->AuthKey_model->verifyKey($this->session->key);
+		if($userID<1){
+			$data['error'] = "Key is invalid";
+			$this->load->view('errorhandler',$data);
+		}
+		else{
+			$this->load->view('rmlist');
+		}
 	}
 	
     function create(){
@@ -46,16 +65,18 @@ class User extends CI_Controller {
 		}
     }
     
-    function demo(){
-		$this->load->view('rmlist');
-	}
-    
     function authkey(){
-		if(!$this->input->post('NIK')){
-			$this->response(array('status' => 'NIK invalid'));
+		if($this->session->has_userdata('key')){
+			$data['error'] = "You have logged in. go to home or logout";
+			$this->load->view('errorhandler',$data);
+		}
+		else if(!$this->input->post('NIK')){
+			$data['error'] = "NIP is Invalid";
+			$this->load->view('errorhandler',$data);
 		}
 		else if(!$this->input->post('password')){
-			$this->response(array('status' => 'password invalid'));
+			$data['error'] = "Password is Invalid";
+			$this->load->view('errorhandler',$data);
 		}
 		else{
 			$result = $this->User_model->getByNIK($this->input->post('NIK'));
@@ -65,7 +86,8 @@ class User extends CI_Controller {
 					$passwordhash = $result['password'];
 					$isvalid = password_verify($this->input->post('password'),$passwordhash);
 					if(!$isvalid){
-						$this->response(array('status' => 'password invalid'));
+						$data['error'] = "Password is invalid";
+						$this->load->view('errorhandler',$data);
 					}
 					else{
 						$date = date("Y-m-d");
@@ -74,19 +96,23 @@ class User extends CI_Controller {
 						$randKey = $this->random_str();
 						$createKey = array('owner' => $result['ID'],'keyss' => $randKey,'datecreated' => $current,'dateexpired' => $next);
 						if($this->AuthKey_model->createKey($createKey)){
-							$this->response(array('key' => $randKey),201);
+							$this->session->set_userdata('key', $randKey);
+							redirect('/','refresh');
 						}
 						else{
-							$this->response(array('status' => 'error when create key'));
+							$data['error'] = "Error when create key. try again";
+							$this->load->view('errorhandler',$data);
 						}
 					}
 				}
 				else{
-					$this->response(array('status' => 'do not login as admin'));
+					$data['error'] = "Do not login as admin";
+					$this->load->view('errorhandler',$data);
 				}
 			}
 			else{
-				$this->response(array('status' => 'no such user'));
+				$data['error'] = "No such user";
+				$this->load->view('errorhandler',$data);
 			}
 		}
 	}
@@ -143,6 +169,11 @@ class User extends CI_Controller {
 				$this->response(array('status' => 'key is invalid'));
 			}
 		}
+	}
+	
+	function logout(){
+		$this->session->unset_userdata('key');
+		redirect('/','refresh');
 	}
 	
 	function random_str(int $length = 64): string {
