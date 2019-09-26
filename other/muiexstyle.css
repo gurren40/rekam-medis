@@ -5,7 +5,7 @@
 html,
 body {
   height: 100%;
-  background-color: #eee;
+  background-color: #fff;
 }
 
 html,
@@ -130,31 +130,32 @@ buttons {
 
 #sidedrawer-brand {
   padding-left: 20px;
+  padding-right: 20px;
 }
 
-#sidedrawer ul {
+#sidedrawer ul, #rmlist ul {
   list-style: none;
 }
 
-#sidedrawer > ul {
+#sidedrawer > ul, #rmlist > ul {
   padding-left: 0px;
 }
 
-#sidedrawer > ul > li:first-child {
+#sidedrawer > ul > li:first-child,#rmlist > ul > li:first-child {
   padding-top: 15px;
 }
 
-#sidedrawer strong {
+#sidedrawer strong, #rmlist strong {
   display: block;
   padding: 15px 22px;
   cursor: pointer;
 }
 
-#sidedrawer strong:hover {
+#sidedrawer strong :hover, #rmlist strong :hover {
   background-color: #E0E0E0;
 }
 
-#sidedrawer strong + ul > li {
+#sidedrawer strong + ul > li, #rmlist strong + ul > li{
   padding: 6px 0px;
 }
 

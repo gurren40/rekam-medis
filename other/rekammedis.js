@@ -1,21 +1,27 @@
 
+//display
+function overlaybg(){
+	var modalEl = document.createElement('div');
+	modalEl.setAttribute("id", "formdosis");
+	modalEl.setAttribute("class","mui-col-xs-12 mui-col-md-6 mui-col-md-offset-3");
+	modalEl.setAttribute("style","vertical-align:middle;background-color:#fff;");
+	return modalEl;
+}
+
+//form dosis
 function formdosis() {
 				  
 	mui.overlay('off');
 	
 	// initialize modal element
-	var modalEl = document.createElement('div');
-	modalEl.setAttribute("id", "formdosis");
-	modalEl.style.width = '50%';
-	//modalEl.style.height = '50%';
-	modalEl.style.margin = '100px auto';
-	modalEl.style.backgroundColor = '#fff';
 	
-	//the truth
-	//<div class="mui-textfield">
-	//<input name="password" type="password">
-	//<label>Password :</label>
-	//</div>
+	var modalEl = overlaybg();
+	
+	//label
+	var label = document.createElement('h3');
+	label.setAttribute("align","center");
+	label.innerHTML = "Hitung Dosis";
+	
 	//container
 	var container = document.createElement('div');
 	container.setAttribute("class","mui-container");
@@ -115,6 +121,7 @@ function formdosis() {
 	exitbutton.innerHTML = "Kembali";
 	divexit.appendChild(exitbutton);
 	
+	container.appendChild(label);
 	container.appendChild(div1);
 	container.appendChild(div2);
 	container.appendChild(div3);
@@ -128,4 +135,16 @@ function formdosis() {
 
 	// show modal
 	mui.overlay('on', modalEl);
-  }
+}
+
+//perhitungan dosis  
+function hitungdosis(){
+	var teg = document.getElementById("tegangan").value
+	var mAs = document.getElementById("mAs").value
+	var bsf = document.getElementById("BSF").value
+	var dap = document.getElementById("DAP").value
+	
+	document.getElementById("INAK").value = Number(teg) + Number(mAs);
+	document.getElementById("Outr").value = Number(mAs) + Number(bsf);
+	document.getElementById("ESAK").value = Number(bsf) + Number(dap);
+}
