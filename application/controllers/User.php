@@ -31,7 +31,8 @@ class User extends CI_Controller {
 			$this->load->view('errorhandler',$data);
 		}
 		else{
-			$this->load->view('rmlist');
+			$data['key'] = $this->session->key;
+			$this->load->view('rmlist',$data);
 		}
 	}
 	

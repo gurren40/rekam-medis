@@ -57,6 +57,7 @@ class RekamMedis_model extends CI_Model{
 	public function getAllRekamMedis(){
 		$this->db->select('*');
 		$this->db->from('RekamMedis');
+		$this->db->order_by('Nama','asc');
 		$query = $this->db->get();
 		if($query->num_rows() > 0){
 			return $query->result_array();

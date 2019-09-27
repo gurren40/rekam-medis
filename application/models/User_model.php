@@ -51,6 +51,7 @@ class User_model extends CI_Model{
 		$this->db->select('ID, NIK, Nama, Umur, JK, Alamat');
 		$this->db->from('User');
 		$this->db->where('Role',0);
+		$this->db->order_by('Nama','asc');
 		$query = $this->db->get();
 		if($query->num_rows() > 0){
 			return $query->result_array();

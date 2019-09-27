@@ -139,12 +139,33 @@ function formdosis() {
 
 //perhitungan dosis  
 function hitungdosis(){
-	var teg = document.getElementById("tegangan").value
-	var mAs = document.getElementById("mAs").value
-	var bsf = document.getElementById("BSF").value
-	var dap = document.getElementById("DAP").value
+	var teg = document.getElementById("tegangan").value;
+	var mAs = document.getElementById("mAs").value;
+	var bsf = document.getElementById("BSF").value;
+	var dap = document.getElementById("DAP").value;
 	
 	document.getElementById("INAK").value = Number(teg) + Number(mAs);
 	document.getElementById("Outr").value = Number(mAs) + Number(bsf);
 	document.getElementById("ESAK").value = Number(bsf) + Number(dap);
+}
+
+function loadDoc(url, cFunction, key){
+	var xhttp = new XMLHttpRequest();
+	
+	xhttp.onreadystatechange = function(){
+		if(this.readyState == 4 && (this.status == 200 || this.status == 201)){
+			cFunction(this);
+		}
+		else{
+			document.getElementById("demo").innerHTML = xhttp.responseText;
+		}
+	}
+	xhttp.open("POST",url,true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("key="+key);
+}
+
+function loadRmlist(xhttp){
+	var rmlist = JSON.parse(xhttp.responseText);
+	document.getElementById("demo").innerHTML = xhttp.responseText;
 }

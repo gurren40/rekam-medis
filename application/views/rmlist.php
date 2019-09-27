@@ -18,6 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?php echo base_url(); ?>other/rekammedis.js"></script>
 	</head>
 	<body>
+		<p style="display:hidden;" id="key"><?php echo $key; ?></p>
 		<div id="sidedrawer" class="mui--no-user-select">
 			<div id="sidedrawer-brand" class="mui--appbar-line-height mui--bg-color-teal-500">
 				<span class="mui--text-title">
@@ -66,7 +67,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  <div class="mui--appbar-height"></div>
 		  <div id="rmlist" class="mui-container-fluid">
 			<h1>Rekam Medis</h1>
-			<ul>
+			<div id="demo" class="mui-container-fluid"></div>
+			<ul id="lists">
 				<li id="1">
 					<strong>Content</strong>
 					<p class="classX">uups</p>
@@ -93,5 +95,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		  </div>
 		</footer>
+		<script>
+			var thekey = document.getElementById("key").innerHTML;
+			document.addEventListener('readystatechange', event => {
+				if(event.target.readyState === "complete"){
+					loadDoc("<?php echo base_url(); ?>RekamMedisAPI/getAll",loadRmlist,thekey);
+				}
+			});
+		</script>
 	</body>
 </html>
