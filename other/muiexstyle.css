@@ -41,6 +41,7 @@ buttons {
   overflow: auto;
   z-index: 2;
   background-color: #fff;
+  border-right : 0px;
   transition: transform 0.2s;
 }
 
@@ -70,6 +71,9 @@ buttons {
   
   #sidedrawer {
     transform: translate(200px);
+    border-right : 2px;
+    border-right-color : #009688;
+    border-right-style : solid;
   }
   
   #content-wrapper {
@@ -133,30 +137,36 @@ buttons {
   padding-right: 20px;
 }
 
-#sidedrawer ul, #rmlist ul {
+#sidedrawer ul, #rmlistEl ul {
   list-style: none;
 }
 
-#sidedrawer > ul, #rmlist > ul {
+#sidedrawer > ul, #rmlistEl > ul {
   padding-left: 0px;
 }
 
-#sidedrawer > ul > li:first-child,#rmlist > ul > li:first-child {
+#sidedrawer > ul > li:first-child{
   padding-top: 15px;
 }
 
-#sidedrawer strong, #rmlist strong {
+#sidedrawer strong{
   display: block;
-  padding: 15px 22px;
+  padding: 15px 22px 15px 22px;
   cursor: pointer;
 }
 
-#sidedrawer strong :hover, #rmlist strong :hover {
+#rmlistEl > ul > li {
+  display: block;
+  padding: 12px 5px 5px 5px;
+  cursor: pointer;
+}
+
+#sidedrawer strong :hover, #rmlistEl strong :hover {
   background-color: #E0E0E0;
 }
 
-#sidedrawer strong + ul > li, #rmlist strong + ul > li{
-  padding: 6px 0px;
+#sidedrawer strong + ul > li{
+  padding: 0px 0px;
 }
 
 

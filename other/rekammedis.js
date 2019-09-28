@@ -157,7 +157,7 @@ function loadDoc(url, cFunction, key){
 			cFunction(this);
 		}
 		else{
-			document.getElementById("demo").innerHTML = xhttp.responseText;
+			document.getElementById("rmstatus").innerHTML = xhttp.responseText;
 		}
 	}
 	xhttp.open("POST",url,true);
@@ -167,5 +167,76 @@ function loadDoc(url, cFunction, key){
 
 function loadRmlist(xhttp){
 	var rmlist = JSON.parse(xhttp.responseText);
-	document.getElementById("demo").innerHTML = xhttp.responseText;
+	if(!Array.isArray(rmlist)){
+		document.getElementById("rmstatus").innerHTML = "Status : "+rmlist["status"];
+	}
+	else{
+		document.getElementById("rmstatus").innerHTML = "";
+		document.getElementById("rmlist").innerHTML = " ";
+		var rmsize = rmlist.length;
+		for (i=0;i<rmsize;i++){
+			var rmelement = rmlist[i];
+			var theLi = document.createElement('li');
+			theLi.setAttribute("id","rm"+rmelement['ID']);
+			theLi.setAttribute("onclick","displayrm("+rmelement['ID']+")");
+			var theStrong = document.createElement('strong');
+			theStrong.innerHTML = rmelement['Nama'];
+			var theCaption = document.createElement('p');
+			theCaption.setAttribute("class","mui--text-dark-secondary mui--text-caption");
+			theCaption.innerHTML = rmelement['datecreated'];
+			var theID = document.createElement('p');
+			theID.innerHTML = rmelement['ID'];
+			theID.setAttribute("class", "theID");
+			var theuserID = document.createElement('p');
+			theuserID.innerHTML = rmelement['userID'];
+			theuserID.setAttribute("class", "theuserID");
+			var theNama = document.createElement('p');
+			theNama.innerHTML = rmelement['Nama'];
+			theNama.setAttribute("class", "theNama");
+			var theTegangan = document.createElement('p');
+			theTegangan.innerHTML = rmelement['Tegangan'];
+			theTegangan.setAttribute("class", "theTegangan");
+			var themAs = document.createElement('p');
+			themAs.innerHTML = rmelement['mAs'];
+			themAs.setAttribute("class", "themAs");
+			var themGy = document.createElement('p');
+			themGy.innerHTML = rmelement['mGy'];
+			themGy.setAttribute("class", "themGy");
+			var theOutputRadiasi = document.createElement('p');
+			theOutputRadiasi.innerHTML = rmelement['OutputRadiasi'];
+			theOutputRadiasi.setAttribute("class", "theOutputRadiasi");
+			var theEsak = document.createElement('p');
+			theEsak.innerHTML = rmelement['Esak'];
+			theEsak.setAttribute("class", "theEsak");
+			var theDAP = document.createElement('p');
+			theDAP.innerHTML = rmelement['DAP'];
+			theDAP.setAttribute("class", "theDAP");
+			var theimageName = document.createElement('p');
+			theimageName.innerHTML = rmelement['imageName'];
+			theimageName.setAttribute("class", "theimageName");
+			var thedatecreated = document.createElement('p');
+			thedatecreated.innerHTML = rmelement['datecreated'];
+			thedatecreated.setAttribute("class", "thedatecreated");
+			
+			theLi.appendChild(theStrong);
+			theLi.appendChild(theCaption);
+			theLi.appendChild(theID);
+			theLi.appendChild(theuserID);
+			theLi.appendChild(theNama);
+			theLi.appendChild(theTegangan);
+			theLi.appendChild(themAs);
+			theLi.appendChild(themGy);
+			theLi.appendChild(theOutputRadiasi);
+			theLi.appendChild(theEsak);
+			theLi.appendChild(theDAP);
+			theLi.appendChild(theimageName);
+			theLi.appendChild(thedatecreated);
+			document.getElementById("rmlist").appendChild(theLi);
+		}
+	}
+}
+
+function displayuserlist(){
+	document.getElementById("userlistEl").style.display = "block";
+	document.getElementById("rmlistEl").style.display = "none";
 }

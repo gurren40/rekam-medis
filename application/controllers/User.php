@@ -31,7 +31,12 @@ class User extends CI_Controller {
 			$this->load->view('errorhandler',$data);
 		}
 		else{
+			$isadmin = 0;
+			if($this->User_model->amIadmin($userID)){
+				$isadmin = 1;
+			}
 			$data['key'] = $this->session->key;
+			$data['isadmin'] = $isadmin;
 			$this->load->view('rmlist',$data);
 		}
 	}

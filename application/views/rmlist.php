@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<span class="mui--text-title">
 					<div align="center">
 						<a href="<?php echo base_url(); ?>">
-							<img src="<?php echo base_url(); ?>image/logo.png" align="center" height="64px">
+							<img src="<?php echo base_url(); ?>image/logo.png" align="center" height="66px">
 						</a>
 					</div>
 				</span>
@@ -55,36 +55,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</ul>
 		</div>
 		<header id="header">
-		  <div class="mui-appbar mui--appbar-line-height">
-			<div class="mui-container-fluid mui--bg-color-teal-500">
+		  <div class="mui-appbar">
+			<div class="mui-container-fluid mui--bg-color-teal-500 mui--appbar-line-height">
 			  <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
 			  <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
-			  <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">Rekam Medis</span>
+			  <a id="thetitle" class="appbar-brand" style="font-size: 1.25rem;color: #fff;">Daftar Rekam Medis</a>
 			</div>
 		  </div>
 		</header>
 		<div id="content-wrapper">
 		  <div class="mui--appbar-height"></div>
-		  <div id="rmlist" class="mui-container-fluid">
-			<h1>Rekam Medis</h1>
-			<div id="demo" class="mui-container-fluid"></div>
-			<ul id="lists">
-				<li id="1">
-					<strong>Content</strong>
-					<p class="classX">uups</p>
-					<p class="classY">uups2</p>
-				</li>
-				<li id="2">
-					<strong>Content</strong>
-					<p class="classX">uups</p>
-					<p class="classY">uups2</p>
-				</li>
-				<li id="3">
-					<strong>Content</strong>
-					<p class="classX">uups</p>
-					<p class="classY">uups2</p>
-				</li>
-			</ul>
+		  <div id="rmlistEl" class="mui-container" <?php if ($isadmin == 1) echo 'style="display:none;"'; ?>>
+			<p id="rmstatus"></p>
+			<?php if ($isadmin == 1) echo '<button onclick="displayuserlist()">Back</button>'; ?>
+			<ul id="rmlist"></ul>
+		  </div>
+		  <div id="userlistEl" class="mui-container" <?php if ($isadmin == 0) echo 'style="display:none;"'; ?>>
+			<ul id="userlist"></ul>
 		  </div>
 		</div>
 		<footer id="footer" class="mui--bg-color-teal-500">

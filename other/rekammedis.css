@@ -2,14 +2,10 @@
  * Body CSS
  */
 
-.classX {
+.theID, .theuserID, .theNama, .theTegangan, .themAs, .themGy, .theOutputRadiasi, .theEsak, .theDAP, .theimageName, .thedatecreated {
 	display:none;
 }
 
-.classY {
-	display:none;
-}
-
-#rmlist ul {
+#rmlistEl ul {
 	background-color : #eee;
 }
