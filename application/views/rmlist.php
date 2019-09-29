@@ -19,6 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</head>
 	<body>
 		<p style="display:hidden;" id="key"><?php echo $key; ?></p>
+		<p style="display:hidden;" id="baseurl"><?php echo base_url(); ?></p>
 		<div id="sidedrawer" class="mui--no-user-select">
 			<div id="sidedrawer-brand" class="mui--appbar-line-height mui--bg-color-teal-500">
 				<span class="mui--text-title">

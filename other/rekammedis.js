@@ -240,3 +240,83 @@ function displayuserlist(){
 	document.getElementById("userlistEl").style.display = "block";
 	document.getElementById("rmlistEl").style.display = "none";
 }
+
+function displayrm(id){
+	mui.overlay('off');
+	// initialize modal element
+	var modalEl = overlaybg();
+	
+	//label
+	var label = document.createElement('h3');
+	label.setAttribute("align","center");
+	label.innerHTML = "Rekam Medis";
+	
+	//container
+	var container = document.createElement('table');
+	container.setAttribute("class","mui-table mui-table--bordered");
+	var theadEl = document.createElement('thead');
+	var trhEl = document.createElement('tr');
+	var thhEl = document.createElement('th');
+	thhEl.appendChild(label);
+	trhEl.appendChild(thhEl);
+	theadEl.appendChild(trhEl);
+	
+	var theImage = document.createElement("img");
+	var theImageDiv = document.createElement("div");
+	var theImageTd = document.createElement("td");
+	var theImageTr = document.createElement("tr");
+	theImageDiv.setAttribute("align","center");
+	theImage.setAttribute("width","100%");
+	theImage.setAttribute("src",document.getElementById("baseurl").innerHTML + "rmimage/" + document.getElementById("rm"+id).getElementsByClassName("theimageName")[0].innerHTML);
+	theImageDiv.appendChild(theImage);
+	theImageTd.appendChild(theImageDiv);
+	theImageTr.appendChild(theImageTd);
+	
+	//exitbutton
+	var divexit = document.createElement('div');
+	var tdexit = document.createElement('td');
+	var trexit = document.createElement('tr');
+	divexit.setAttribute("align", "center");
+	var exitbutton = document.createElement('button');
+	exitbutton.setAttribute("class", "mui-btn mui-btn--raised");
+	exitbutton.setAttribute("onclick", "mui.overlay('off')");
+	exitbutton.innerHTML = "Kembali";
+	divexit.appendChild(exitbutton);
+	tdexit.appendChild(divexit);
+	trexit.appendChild(tdexit);
+	
+	var tbodyEl = document.createElement('tbody');
+	//tbodyEl.appendChild(createDetailText("ID :","\t"+document.getElementById("rm"+id).getElementsByClassName("theID")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("Nama :","\t"+document.getElementById("rm"+id).getElementsByClassName("theNama")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("Tanggal Dibuat :","\t"+document.getElementById("rm"+id).getElementsByClassName("thedatecreated")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("Tegangan :","\t"+document.getElementById("rm"+id).getElementsByClassName("theTegangan")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("mAs :","\t"+document.getElementById("rm"+id).getElementsByClassName("themAs")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("mGy :","\t"+document.getElementById("rm"+id).getElementsByClassName("themGy")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("Output Radiasi :","\t"+document.getElementById("rm"+id).getElementsByClassName("theOutputRadiasi")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("Esak :","\t"+document.getElementById("rm"+id).getElementsByClassName("theEsak")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("DAP :","\t"+document.getElementById("rm"+id).getElementsByClassName("theDAP")[0].innerHTML));
+	tbodyEl.appendChild(theImageTr);
+	tbodyEl.appendChild(trexit);
+	
+	container.appendChild(theadEl);
+	container.appendChild(tbodyEl);
+	modalEl.appendChild(container);
+	
+	// show modal
+	mui.overlay('on', modalEl);
+}
+
+function createDetailText(title,body){
+	var trEl = document.createElement('tr');
+	var tdEl = document.createElement('td');
+	var IDlab = document.createElement('div');
+	IDlab.setAttribute("class", "mui--text-caption");
+	IDlab.innerHTML = ""+title;
+	var theID = document.createElement('div');
+	theID.setAttribute("class", "mui--text-body1");
+	theID.innerHTML = ""+body;
+	tdEl.appendChild(IDlab);
+	tdEl.appendChild(theID);
+	trEl.appendChild(tdEl);
+	return trEl;
+}
