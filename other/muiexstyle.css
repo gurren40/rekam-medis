@@ -137,11 +137,11 @@ buttons {
   padding-right: 20px;
 }
 
-#sidedrawer ul, #rmlistEl ul {
+#sidedrawer ul, #rmlistEl ul, #userlistEl ul {
   list-style: none;
 }
 
-#sidedrawer > ul, #rmlistEl > ul {
+#sidedrawer > ul, #rmlistEl > ul, #userlistEl > ul {
   padding-left: 0px;
 }
 
@@ -155,13 +155,13 @@ buttons {
   cursor: pointer;
 }
 
-#rmlistEl > ul > li {
+#rmlistEl > ul > li, #userlistEl > ul > li {
   display: block;
   padding: 12px 5px 5px 5px;
   cursor: pointer;
 }
 
-#sidedrawer strong :hover, #rmlistEl strong :hover {
+#sidedrawer strong :hover, #rmlistEl strong :hover, #userlistEl strong :hover {
   background-color: #E0E0E0;
 }
 

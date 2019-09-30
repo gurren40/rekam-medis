@@ -31,35 +31,40 @@ class RekamMedisAPI extends REST_Controller {
 		else {
 			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
 			if($userID > 0){
-				$image = '';
-				$imageName = '';
-				if(!$this->post('imageFile')){
-					$imageName = 'none.jpg';
+				if(!$this->User_model->amIadmin($userID)){
+					$this->response(array('status' => 'you are not admin or something wrong happend'));
 				}
 				else{
-					$image = hex2bin($this->post('imageFile'));
-					$imageName = $this->random_str().'.'.'jpg';
-				}
-				$imagePath = 'rmimage'.'/'.$imageName;
-				$newRM = array('userID' => $userID,
-								'Nama' => $this->post('Nama'),
-								'Tegangan' => $this->post('Tegangan'),
-								'mAs' => $this->post('mAs'),
-								'mGy' => $this->post('mGy'),
-								'OutputRadiasi' => $this->post('OutputRadiasi'),
-								'Esak' => $this->post('Esak'),
-								'DAP' => $this->post('DAP'),
-								'imageName' => $imageName,
-								'datecreated' => date("Y-m-d")
-						 );
-				if($this->RekamMedis_model->createRM($newRM)){
-					if($this->post('imageFile')){
-						file_put_contents($imagePath,$image);
+					$image = '';
+					$imageName = '';
+					if(!$this->post('imageFile')){
+						$imageName = 'none.jpg';
 					}
-					$this->response(array('status' => 'success'));
-				}
-				else{
-					$this->response(array('status' => 'error when create rekam medis'));
+					else{
+						$image = hex2bin($this->post('imageFile'));
+						$imageName = $this->random_str().'.'.'jpg';
+					}
+					$imagePath = 'rmimage'.'/'.$imageName;
+					$newRM = array('userID' => $this->post('userID'),
+									'Nama' => $this->post('Nama'),
+									'Tegangan' => $this->post('Tegangan'),
+									'mAs' => $this->post('mAs'),
+									'mGy' => $this->post('mGy'),
+									'OutputRadiasi' => $this->post('OutputRadiasi'),
+									'Esak' => $this->post('Esak'),
+									'DAP' => $this->post('DAP'),
+									'imageName' => $imageName,
+									'datecreated' => date("Y-m-d")
+							 );
+					if($this->RekamMedis_model->createRM($newRM)){
+						if($this->post('imageFile')){
+							file_put_contents($imagePath,$image);
+						}
+						$this->response(array('status' => 'success'));
+					}
+					else{
+						$this->response(array('status' => 'error when create rekam medis'));
+					}
 				}
 			}
 			else if($userID < 0){

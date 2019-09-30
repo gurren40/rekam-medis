@@ -30,6 +30,12 @@ class UserAPI extends REST_Controller {
 		else if(!$this->post('password')){
 			$this->response(array('status' => 'password invalid'));
 		}
+		else if(!$this->post('key')){
+			$this->response(array('status' => 'NIK invalid'));
+		}
+		else if(!$this->User_model->amIadmin($this->AuthKey_model->verifyKey($this->post('key')))){
+			$this->response(array('status' => 'you are not admin or something wrong happend'));
+		}
 		else{
 			$password = password_hash($this->post('password'),PASSWORD_DEFAULT);
 			$create = array('NIK' => $this->post('NIK'),
@@ -103,7 +109,7 @@ class UserAPI extends REST_Controller {
 			if($userID > 0){
 				$result = $this->User_model->getByID($userID);
 				if(!($result == 0)){
-					$toSend = array('Nama' => $result['Nama'],'Umur' => $result['Umur'],'JK' => $result['JK'],'Alamat' => $result['Alamat']);
+					$toSend = array('Nama' => $result['Nama'],'Umur' => $result['Umur'],'JK' => $result['JK'],'Alamat' => $result['Alamat'],'NIK' => $result['NIK']);
 					$this->response($toSend);
 				}
 				else{

@@ -43,7 +43,7 @@ class AdminAPI extends REST_Controller {
 								'Umur' => $this->post('Umur'),
 								'JK' => $this->post('JK'),
 								'Alamat' => $this->post('Alamat'),
-								'Role' => 1
+								'Role' => $this->post('Role')
 						  );
 				$result = $this->User_model->createUser($create);
 				 

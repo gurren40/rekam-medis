@@ -16,10 +16,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?php echo base_url(); ?>other/jquery-2.1.4.min.js"></script>
 		<script src="<?php echo base_url(); ?>other/muiexscript.js"></script>
 		<script src="<?php echo base_url(); ?>other/rekammedis.js"></script>
+		<?php if ($isadmin == 1) echo '<script src="'.base_url().'other/adminer.js"></script>'; ?>
 	</head>
 	<body>
-		<p style="display:hidden;" id="key"><?php echo $key; ?></p>
-		<p style="display:hidden;" id="baseurl"><?php echo base_url(); ?></p>
+		<p id="baseurl" style="display:hidden;"><?php echo base_url(); ?></p>
+		<p id="key" style="display:hidden;"><?php echo $key; ?></p>
 		<div id="sidedrawer" class="mui--no-user-select">
 			<div id="sidedrawer-brand" class="mui--appbar-line-height mui--bg-color-teal-500">
 				<span class="mui--text-title">
@@ -34,18 +35,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<ul>
 				<a href="#">
-					<li>
+					<li onclick="profileDetail()">
 						<strong>Profil</strong>
 					</li>
 				</a>
 				<a href="#">
 					<li onclick="formdosis()">
 						<strong>Hitung Dosis</strong>
-					</li>
-				</a>
-				<a href="#">
-					<li>
-						<strong>Pengaturan</strong>
 					</li>
 				</a>
 				<a href="<?php echo base_url(); ?>user/logout">
@@ -60,7 +56,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="mui-container-fluid mui--bg-color-teal-500 mui--appbar-line-height">
 			  <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
 			  <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
-			  <a id="thetitle" class="appbar-brand" style="font-size: 1.25rem;color: #fff;">Daftar Rekam Medis</a>
+			  <?php if ($isadmin == 0) echo '<a id="thetitle" class="appbar-brand" style="font-size: 1.25rem;color: #fff;">Daftar Rekam Medis</a>'; ?>
+			  <?php if ($isadmin == 1) echo '<a id="thetitle" class="appbar-brand" style="font-size: 1.25rem;color: #fff;">Daftar Pasien</a>'; ?>
 			</div>
 		  </div>
 		</header>
@@ -68,10 +65,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  <div class="mui--appbar-height"></div>
 		  <div id="rmlistEl" class="mui-container" <?php if ($isadmin == 1) echo 'style="display:none;"'; ?>>
 			<p id="rmstatus"></p>
-			<?php if ($isadmin == 1) echo '<button onclick="displayuserlist()">Back</button>'; ?>
+			<?php if ($isadmin == 1) echo '<div align="right" style="padding:10px;"><button onclick="displayuserlist()">Kembali</button></div>'; ?>
+			<?php if ($isadmin == 1) echo '<div class="mui-divider"></div>'; ?>
 			<ul id="rmlist"></ul>
 		  </div>
 		  <div id="userlistEl" class="mui-container" <?php if ($isadmin == 0) echo 'style="display:none;"'; ?>>
+		    <p id="userstatus"></p>
 			<ul id="userlist"></ul>
 		  </div>
 		</div>
@@ -84,10 +83,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  </div>
 		</footer>
 		<script>
-			var thekey = document.getElementById("key").innerHTML;
+			sessionStorage.setItem("key",document.getElementById("key").innerHTML);
+			sessionStorage.setItem("baseurl",document.getElementById("baseurl").innerHTML);
+			document.getElementById("key").innerHTML = "";
+			document.getElementById("baseurl").innerHTML = "";
 			document.addEventListener('readystatechange', event => {
 				if(event.target.readyState === "complete"){
-					loadDoc("<?php echo base_url(); ?>RekamMedisAPI/getAll",loadRmlist,thekey);
+					<?php if ($isadmin == 0) echo 'loadDoc("'.base_url().'RekamMedisAPI/getAll",loadRmlist,window.sessionStorage.getItem("key"));'; ?>
+					<?php if ($isadmin == 1) echo 'loadDoc("'.base_url().'UserAPI/getAll",loadUserlist,window.sessionStorage.getItem("key"));'; ?>
+					loadDoc("<?php echo base_url(); ?>UserAPI/get",loadprofile,sessionStorage.getItem("key"));
 				}
 			});
 		</script>

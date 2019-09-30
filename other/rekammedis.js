@@ -4,7 +4,7 @@ function overlaybg(){
 	var modalEl = document.createElement('div');
 	modalEl.setAttribute("id", "formdosis");
 	modalEl.setAttribute("class","mui-col-xs-12 mui-col-md-6 mui-col-md-offset-3");
-	modalEl.setAttribute("style","vertical-align:middle;background-color:#fff;");
+	modalEl.setAttribute("style","vertical-align:middle;background-color:#fff;horizontal-align:middle;");
 	return modalEl;
 }
 
@@ -156,9 +156,9 @@ function loadDoc(url, cFunction, key){
 		if(this.readyState == 4 && (this.status == 200 || this.status == 201)){
 			cFunction(this);
 		}
-		else{
-			document.getElementById("rmstatus").innerHTML = xhttp.responseText;
-		}
+		/*else{
+			document.getElementById("userstatus").innerHTML = xhttp.responseText;
+		}*/
 	}
 	xhttp.open("POST",url,true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -236,9 +236,64 @@ function loadRmlist(xhttp){
 	}
 }
 
-function displayuserlist(){
-	document.getElementById("userlistEl").style.display = "block";
-	document.getElementById("rmlistEl").style.display = "none";
+function loadprofile(xhttp){
+	var profileJson = JSON.parse(xhttp.responseText);
+	session = profileJson["NIK"];
+	sessionStorage.setItem("proNama",profileJson["Nama"]);
+	sessionStorage.setItem("proUmur",profileJson["Umur"]);
+	sessionStorage.setItem("proJK",profileJson["JK"]);
+	sessionStorage.setItem("proAlamat",profileJson["Alamat"]);
+	sessionStorage.setItem("proNIK",profileJson["NIK"]);
+}
+
+function profileDetail(){
+	mui.overlay('off');
+	// initialize modal element
+	var modalEl = overlaybg();
+	
+	//label
+	var label = document.createElement('h3');
+	label.setAttribute("align","center");
+	label.innerHTML = "Profil";
+	
+	//container
+	var container = document.createElement('table');
+	container.setAttribute("class","mui-table mui-table--bordered");
+	var theadEl = document.createElement('thead');
+	var trhEl = document.createElement('tr');
+	var thhEl = document.createElement('th');
+	thhEl.appendChild(label);
+	trhEl.appendChild(thhEl);
+	theadEl.appendChild(trhEl);
+	
+	//exitbutton
+	var divexit = document.createElement('div');
+	var tdexit = document.createElement('td');
+	var trexit = document.createElement('tr');
+	divexit.setAttribute("align", "center");
+	var exitbutton = document.createElement('button');
+	exitbutton.setAttribute("class", "mui-btn mui-btn--raised");
+	exitbutton.setAttribute("onclick", "mui.overlay('off')");
+	exitbutton.innerHTML = "Kembali";
+	divexit.appendChild(exitbutton);
+	tdexit.appendChild(divexit);
+	trexit.appendChild(tdexit);
+	
+	var tbodyEl = document.createElement('tbody');
+	//tbodyEl.appendChild(createDetailText("ID :","\t"+document.getElementById("rm"+id).getElementsByClassName("theID")[0].innerHTML));
+	tbodyEl.appendChild(createDetailText("NIK :","\t"+sessionStorage.getItem("proNIK")));
+	tbodyEl.appendChild(createDetailText("Nama :","\t"+sessionStorage.getItem("proNama")));
+	tbodyEl.appendChild(createDetailText("Umur :","\t"+sessionStorage.getItem("proUmur")));
+	tbodyEl.appendChild(createDetailText("Jenis Kelamin :","\t"+(Number(sessionStorage.getItem("proNIK")) == 1 ? "Perempuan" : "Laki - Laki")));
+	tbodyEl.appendChild(createDetailText("Alamat :","\t"+sessionStorage.getItem("proAlamat")));
+	tbodyEl.appendChild(trexit);
+	
+	container.appendChild(theadEl);
+	container.appendChild(tbodyEl);
+	modalEl.appendChild(container);
+	
+	// show modal
+	mui.overlay('on', modalEl);
 }
 
 function displayrm(id){
@@ -267,7 +322,7 @@ function displayrm(id){
 	var theImageTr = document.createElement("tr");
 	theImageDiv.setAttribute("align","center");
 	theImage.setAttribute("width","100%");
-	theImage.setAttribute("src",document.getElementById("baseurl").innerHTML + "rmimage/" + document.getElementById("rm"+id).getElementsByClassName("theimageName")[0].innerHTML);
+	theImage.setAttribute("src",sessionStorage.getItem("baseurl") + "rmimage/" + document.getElementById("rm"+id).getElementsByClassName("theimageName")[0].innerHTML);
 	theImageDiv.appendChild(theImage);
 	theImageTd.appendChild(theImageDiv);
 	theImageTr.appendChild(theImageTd);

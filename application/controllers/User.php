@@ -40,36 +40,6 @@ class User extends CI_Controller {
 			$this->load->view('rmlist',$data);
 		}
 	}
-	
-    function create(){
-		if(!$this->input->post('NIK')){
-			$this->response(array('status' => 'NIK invalid'));
-		}
-		else if(!$this->input->post('password')){
-			$this->response(array('status' => 'password invalid'));
-		}
-		else{
-			$password = password_hash($this->input->post('password'),PASSWORD_DEFAULT);
-			$create = array('NIK' => $this->input->post('NIK'),
-							'password' => $password,
-							'Nama' => $this->input->post('Nama'),
-							'Umur' => $this->input->post('Umur'),
-							'JK' => $this->input->post('JK'),
-							'Alamat' => $this->input->post('Alamat')
-					  );
-			$result = $this->User_model->createUser($create);
-			 
-			if($result === false)
-			{
-				$this->response(array('status' => 'failed'));
-			}
-			 
-			else
-			{
-				$this->response(array('status' => 'success'),201);
-			}
-		}
-    }
     
     function authkey(){
 		if($this->session->has_userdata('key')){
@@ -87,33 +57,28 @@ class User extends CI_Controller {
 		else{
 			$result = $this->User_model->getByNIK($this->input->post('NIK'));
 			if(!$result == 0){
-				if(!$this->User_model->amIadmin($result['ID'])){
-					$NIK = $result['NIK'];
-					$passwordhash = $result['password'];
-					$isvalid = password_verify($this->input->post('password'),$passwordhash);
-					if(!$isvalid){
-						$data['error'] = "Password is invalid";
-						$this->load->view('errorhandler',$data);
-					}
-					else{
-						$date = date("Y-m-d");
-						$current = date("Y-m-d",strtotime($date));
-						$next = date("Y-m-d",strtotime($date."+1 month"));
-						$randKey = $this->random_str();
-						$createKey = array('owner' => $result['ID'],'keyss' => $randKey,'datecreated' => $current,'dateexpired' => $next);
-						if($this->AuthKey_model->createKey($createKey)){
-							$this->session->set_userdata('key', $randKey);
-							redirect('/','refresh');
-						}
-						else{
-							$data['error'] = "Error when create key. try again";
-							$this->load->view('errorhandler',$data);
-						}
-					}
+				$NIK = $result['NIK'];
+				$passwordhash = $result['password'];
+				$isvalid = password_verify($this->input->post('password'),$passwordhash);
+				if(!$isvalid){
+					$data['error'] = "Password is invalid";
+					$this->load->view('errorhandler',$data);
 				}
 				else{
-					$data['error'] = "Do not login as admin";
-					$this->load->view('errorhandler',$data);
+					$date = date("Y-m-d");
+					$current = date("Y-m-d",strtotime($date));
+					$next = date("Y-m-d",strtotime($date."+1 month"));
+					$randKey = $this->random_str();
+					$createKey = array('owner' => $result['ID'],'keyss' => $randKey,'datecreated' => $current,'dateexpired' => $next);
+					if($this->AuthKey_model->createKey($createKey)){
+						$this->session->set_userdata('key', $randKey);
+						$this->session->set_userdata('baseurl', base_url());
+						redirect('/','refresh');
+					}
+					else{
+						$data['error'] = "Error when create key. try again";
+						$this->load->view('errorhandler',$data);
+					}
 				}
 			}
 			else{
@@ -123,62 +88,8 @@ class User extends CI_Controller {
 		}
 	}
 	
-	function get(){
-		if(!$this->input->post('key')){
-			$this->response(array('status' => 'key is not posted'));
-		}
-		else{
-			$userID = $this->AuthKey_model->verifyKey($this->input->post('key'));
-			if($userID > 0){
-				$result = $this->User_model->getByID($userID);
-				if(!($result == 0)){
-					$toSend = array('Nama' => $result['Nama'],'Umur' => $result['Umur'],'JK' => $result['JK'],'Alamat' => $result['Alamat']);
-					$this->response($toSend);
-				}
-				else{
-					$this->response(array('status' => 'error when get user data'));
-				}
-			}
-			else if($userID < 0){
-				$this->response(array('status' => 'expired'));
-			}
-			else{
-				$this->response(array('status' => 'key is invalid'));
-			}
-		}
-	}
-	
-	function getAll(){
-		if(!$this->input->post('key')){
-			$this->response(array('status' => 'key is not posted'));
-		}
-		else{
-			$userID = $this->AuthKey_model->verifyKey($this->input->post('key'));
-			if($userID > 0){
-				if(!$this->User_model->amIadmin($userID)){
-					$this->response(array('status' => 'you are not admin or something wrong happend'));
-				}
-				else{
-					$result = $this->User_model->getAllUser();
-					if(!($result == 0)){
-						$this->response($result);
-					}
-					else{
-						$this->response(array('status' => 'error when get All User data'));
-					}
-				}
-			}
-			else if($userID < 0){
-				$this->response(array('status' => 'expired'));
-			}
-			else{
-				$this->response(array('status' => 'key is invalid'));
-			}
-		}
-	}
-	
 	function logout(){
-		$this->session->unset_userdata('key');
+		$this->session->sess_destroy();
 		redirect('/','refresh');
 	}
 	

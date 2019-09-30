@@ -19,6 +19,7 @@ class RekamMedis_model extends CI_Model{
 		$this->db->from('RekamMedis');
 		$this->db->where('userID',$userID);
 		$this->db->where('ID',$id);
+		$this->db->order_by('Nama','asc');
 		$query = $this->db->get();
 		if($query->num_rows() > 0){
 			return $query->row_array();
@@ -32,6 +33,7 @@ class RekamMedis_model extends CI_Model{
 		$this->db->select('*');
 		$this->db->from('RekamMedis');
 		$this->db->where('ID',$id);
+		$this->db->order_by('Nama','asc');
 		$query = $this->db->get();
 		if($query->num_rows() > 0){
 			return $query->row_array();
@@ -45,6 +47,7 @@ class RekamMedis_model extends CI_Model{
 		$this->db->select('*');
 		$this->db->from('RekamMedis');
 		$this->db->where('userID',$id);
+		$this->db->order_by('Nama','asc');
 		$query = $this->db->get();
 		if($query->num_rows() > 0){
 			return $query->result_array();
