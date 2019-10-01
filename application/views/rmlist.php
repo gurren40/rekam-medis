@@ -44,6 +44,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<strong>Hitung Dosis</strong>
 					</li>
 				</a>
+				<?php if ($isadmin == 1) echo '
+				<a href="#">
+					<li onclick="createUserForm()">
+						<strong>Buat Pengguna Baru</strong>
+					</li>
+				</a>
+				'; 
+				?>
+				<?php if ($isadmin == 1) echo '
+				<a href="#">
+					<li onclick="createRMForm()">
+						<strong>Masukkan Rekam Medis</strong>
+					</li>
+				</a>
+				'; 
+				?>
 				<a href="<?php echo base_url(); ?>user/logout">
 					<li>
 						<strong>Keluar</strong>

@@ -169,6 +169,7 @@ function loadRmlist(xhttp){
 	var rmlist = JSON.parse(xhttp.responseText);
 	if(!Array.isArray(rmlist)){
 		document.getElementById("rmstatus").innerHTML = "Status : "+rmlist["status"];
+		document.getElementById("rmlist").innerHTML = "";
 	}
 	else{
 		document.getElementById("rmstatus").innerHTML = "";

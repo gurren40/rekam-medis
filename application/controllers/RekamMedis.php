@@ -16,139 +16,49 @@ class RekamMedis extends CI_Controller {
 	}
 	
     function create(){
-		if(!$this->post('key')){
-			$this->response(array('status' => 'key is not posted'));
+		$config['allowed_types'] = 'jpg';
+		$this->load->library('upload', $config);
+		if(!$this->input->input_stream('key')){
+			$data['error'] = "Key is invalid";
+			$this->load->view('errorhandler',$data);
 		}
 		else {
-			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
+			$userID = $this->AuthKey_model->verifyKey($this->input->input_stream('key'));
 			if($userID > 0){
 				$image = '';
-				$imageName = '';
-				if(!$this->post('imageFile')){
-					$imageName = 'none.jpg';
-				}
-				else{
-					$image = hex2bin($this->post('imageFile'));
-					$imageName = $this->random_str().'.'.'jpg';
-				}
+				$imageName = $this->random_str().'.'.'jpg';
 				$imagePath = 'rmimage'.'/'.$imageName;
 				$newRM = array('userID' => $userID,
-								'Nama' => $this->post('Nama'),
-								'Tegangan' => $this->post('Tegangan'),
-								'mAs' => $this->post('mAs'),
-								'mGy' => $this->post('mGy'),
-								'OutputRadiasi' => $this->post('OutputRadiasi'),
-								'Esak' => $this->post('Esak'),
-								'DAP' => $this->post('DAP'),
+								'Nama' => $this->input->input_stream('Nama'),
+								'Tegangan' => $this->input->input_stream('Tegangan'),
+								'mAs' => $this->input->input_stream('mAs'),
+								'mGy' => $this->input->input_stream('mGy'),
+								'OutputRadiasi' => $this->input->input_stream('OutputRadiasi'),
+								'Esak' => $this->input->input_stream('Esak'),
+								'DAP' => $this->input->input_stream('DAP'),
 								'imageName' => $imageName,
 								'datecreated' => date("Y-m-d")
 						 );
 				if($this->RekamMedis_model->createRM($newRM)){
-					if($this->post('imageFile')){
-						file_put_contents($imagePath,$image);
-					}
-					$this->response(array('status' => 'success'));
+					file_put_contents($imagePath,$this->upload->data());
+					$data['error'] = "Upload Success!!!";
+					$this->load->view('errorhandler',$data);
 				}
 				else{
-					$this->response(array('status' => 'error when create rekam medis'));
+					$data['error'] = "Upload failed.";
+					$this->load->view('errorhandler',$data);
 				}
 			}
 			else if($userID < 0){
-				$this->response(array('status' => 'expired'));
+				$data['error'] = "Key is expired";
+				$this->load->view('errorhandler',$data);
 			}
 			else{
-				$this->response(array('status' => 'key is invalid'));
+				$data['error'] = "Key is invalid";
+				$this->load->view('errorhandler',$data);
 			}
 		}
     }
-    
-    function get($RMID){
-		if(!$this->post('key')){
-			$this->response(array('status' => 'key is not posted'));
-		}
-		else {
-			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
-			if($userID > 0){
-				if(!$this->User_model->amIadmin($userID)){
-					$result = $this->RekamMedis_model->getByRMID($RMID,$userID);
-					if(!($result == 0)){
-						$this->response($result);
-					}
-					else{
-						$this->response(array('status' => 'error when get rekam medis data'));
-					}
-				}
-				else{
-					$result = $this->RekamMedis_model->getByPureRMID($RMID);
-					if(!($result == 0)){
-						$this->response($result);
-					}
-					else{
-						$this->response(array('status' => 'error when get rekam medis data'));
-					}					
-				}
-			}
-			else if($userID < 0){
-				$this->response(array('status' => 'expired'));
-			}
-			else{
-				$this->response(array('status' => 'key is invalid'));
-			}
-		}
-	}
-	
-	function getAll(){
-		if(!$this->post('key')){
-			$this->response(array('status' => 'key is not posted'));
-		}
-		else {
-			$userID = $this->AuthKey_model->verifyKey($this->post('key'));
-			if($userID > 0){
-				$result = $this->RekamMedis_model->getByUserID($userID);
-				if(!($result == 0)){
-					$this->response($result);
-				}
-				else{
-					$this->response(array('status' => 'error when get rekam medis data'));
-				}
-			}
-			else if($userID < 0){
-				$this->response(array('status' => 'expired'));
-			}
-			else{
-				$this->response(array('status' => 'key is invalid'));
-			}
-		}
-	}
-	
-	function getByUser($userID){
-		if(!$this->post('key')){
-			$this->response(array('status' => 'key is not posted'));
-		}
-		else {
-			$adminID = $this->AuthKey_model->verifyKey($this->post('key'));
-			if($adminID > 0){
-				if(!$this->User_model->amIadmin($adminID)){
-					$this->response(array('status' => 'you are not admin or something wrong happend'));
-				}
-				else{
-					$result = $this->RekamMedis_model->getByUserID($userID);
-					if(!($result == 0)){
-						$this->response($result);
-					}
-					else{
-						$this->response(array('status' => 'error when get rekam medis data'));
-					}
-				}
-			}
-			else if($adminID < 0){
-				$this->response(array('status' => 'expired'));
-			}
-			else{
-				$this->response(array('status' => 'key is invalid'));
-			}
-		}
-	}
 	
 	function random_str(int $length = 64): string {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

@@ -41,7 +41,18 @@ class RekamMedisAPI extends REST_Controller {
 						$imageName = 'none.jpg';
 					}
 					else{
-						$image = hex2bin($this->post('imageFile'));
+						if($this->input->post('isbase64') == '1'){
+							$img = $this->post('imageFile');
+							$img = str_replace('data:image/jpeg;base64,', '', $img);
+							$img = str_replace('data:image/png;base64,', '', $img);
+							$img = str_replace('data:image/jpg;base64,', '', $img);
+							$img = str_replace('data:image/gif;base64,', '', $img);
+							$img = str_replace(' ', '+', $img);
+							$image = base64_decode($img);
+						}
+						else{
+							$image = hex2bin($this->post('imageFile'));
+						}
 						$imageName = $this->random_str().'.'.'jpg';
 					}
 					$imagePath = 'rmimage'.'/'.$imageName;
