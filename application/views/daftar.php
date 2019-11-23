@@ -60,36 +60,108 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div id="content-wrapper">
 		  <div class="mui--appbar-height"></div>
 		  <div class="mui-container">
-			<form method="POST" action="/Daftar/daftar" class="mui-form">
-				<div class="mui-col-xs-12 mui-col-md-6">
-				  <legend>Profil Rumah Sakit</legend>
-				  <div class="mui-textfield">
-					<input name="nama-institusi" type="text" placeholder="Nama Institusi" required>
-				  </div>
-				  <div class="mui-textfield">
-					<input name="nama-sub-institusi" type="text" placeholder="Nama Sub Institusi" required>
-				  </div>
-				  <div class="mui-textfield">
-					<input name="kode-rumah-sakit" type="text" placeholder="Kode Rumah Sakit" required>
-				  </div>
-				  <div class="mui-textfield">
-					<input name="jenis-institusi" type="text" placeholder="Jenis Institusi" required>
-				  </div>
+			<form method="POST" action="/Daftar/simpan" class="mui-form">
+				<div class="mui-row">
+					<div class="mui-col-xs-12 mui-col-md-6">
+					  <legend>Profil Rumah Sakit</legend>
+					  <div class="mui-textfield">
+						<input name="nama-institusi" type="text" placeholder="Nama Institusi" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="nama-sub-institusi" type="text" placeholder="Nama Sub Institusi" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="kode-rumah-sakit" type="text" placeholder="Kode Rumah Sakit" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="jenis-institusi" type="text" placeholder="Jenis Institusi" required>
+					  </div>
+					</div>
+					<div class="mui-col-xs-12 mui-col-md-6">
+					  <legend>Alamat Rumah Sakit</legend>
+					  <div class="mui-textfield">
+						<textarea placeholder="Alamat" name="alamat"></textarea>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="kota-kabupaten" type="text" placeholder="Kota/Kabupaten" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="provinsi" type="text" placeholder="Provinsi" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="kode-pos" type="number" placeholder="Kode Pos" required>
+					  </div>
+					</div>
 				</div>
-				<div class="mui-col-xs-12 mui-col-md-6">
-				  <legend>Alamat Rumah Sakit</legend>
-				  <div class="mui-textfield">
-					<textarea placeholder="Alamat" name="alamat"></textarea>
-				  </div>
-				  <div class="mui-textfield">
-					<input name="kota-kabupaten" type="text" placeholder="Kota/Kabupaten" required>
-				  </div>
-				  <div class="mui-textfield">
-					<input name="provinsi" type="text" placeholder="Provinsi" required>
-				  </div>
-				  <div class="mui-textfield">
-					<input name="kode-pos" type="number" placeholder="Kode Pos" required>
-				  </div>
+				<div class="mui-row">
+					<div class="mui-col-xs-12 mui-col-md-6">
+					  <legend>Profil Radiolog</legend>
+					  <div class="mui-textfield">
+						<input name="gelar" type="text" placeholder="Gelar" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="gelar-lainnya" type="text" placeholder="Sebutkan jika 'lainnya'">
+					  </div>
+					  <div class="mui-textfield">
+						<input name="nama-awal" type="text" placeholder="Nama Awal" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="nama-akhir" type="text" placeholder="Nama Akhir">
+					  </div>
+					</div>
+					<div class="mui-col-xs-12 mui-col-md-6">
+					  <legend>Kontak Radiolog</legend>
+					  <div class="mui-textfield">
+						<input name="telpon-kantor" type="number" placeholder="Telp. Kantor" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="no-hp" type="number" placeholder="No. HP" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="fax" type="text" placeholder="Fax" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="email" type="text" placeholder="Email" required>
+					  </div>
+					</div>
+				</div>
+				<div class="mui-row">
+					<div class="mui-col-xs-12 mui-col-md-6">
+					  <legend>Profil Akun User</legend>
+					  <div class="mui-textfield">
+						<input name="gelar-akun" type="text" placeholder="Gelar" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="gelar-lainnya-akun" type="text" placeholder="Sebutkan jika 'lainnya'">
+					  </div>
+					  <div class="mui-textfield">
+						<input name="nama-awal-akun" type="text" placeholder="Nama Awal" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="nama-akhir-akun" type="text" placeholder="Nama Akhir">
+					  </div>
+					  <div class="mui-textfield">
+						<input name="jabatan-akun" type="text" placeholder="Jabatan">
+					  </div>
+					</div>
+					<div class="mui-col-xs-12 mui-col-md-6">
+					  <legend>Kontak Akun User</legend>
+					  <div class="mui-textfield">
+						<input name="telpon-kantor-akun" type="number" placeholder="Telp. Kantor" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="no-hp-akun" type="number" placeholder="No. HP" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="fax-akun" type="text" placeholder="Fax" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="email-akun" type="text" placeholder="Email" required>
+					  </div>
+					</div>
+				</div>
+				<div class="mui-row" align="center">
+					<button class="mui-btn mui-btn--raised" type="submit">Submit</button>
 				</div>
 			</form>
 		  </div>
