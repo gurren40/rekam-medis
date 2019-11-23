@@ -70,103 +70,81 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div id="content-wrapper">
 		  <div class="mui--appbar-height"></div>
 		  <div class="mui-container">
-			<form method="POST" action="/Daftar/simpan" class="mui-form">
+			<form method="POST" action="/Daftar/ctscansimpan" class="mui-form">
 				<div class="mui-row">
 					<div class="mui-col-xs-12 mui-col-md-6">
-					  <legend>Profil Rumah Sakit</legend>
+					  <legend>Head Info</legend>
 					  <div class="mui-textfield">
-						<input name="nama-institusi" type="text" placeholder="Nama Institusi" required>
+						<input name="scanner" type="text" placeholder="Scanner" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="nama-sub-institusi" type="text" placeholder="Nama Sub Institusi" required>
+						<input name="tanngal-uji-dosimetri" type="date" placeholder="Tanggal Uji Dosimetri" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="kode-rumah-sakit" type="text" placeholder="Kode Rumah Sakit" required>
+						<input name="kelompok-umur" type="text" placeholder="Kelompok Umur" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="jenis-institusi" type="text" placeholder="Jenis Institusi" required>
-					  </div>
-					</div>
-					<div class="mui-col-xs-12 mui-col-md-6">
-					  <legend>Alamat Rumah Sakit</legend>
-					  <div class="mui-textfield">
-						<textarea placeholder="Alamat" name="alamat"></textarea>
+						<input name="tanggal-mulai" type="text" placeholder="Tanggal Mulai" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="kota-kabupaten" type="text" placeholder="Kota/Kabupaten" required>
+						<input name="keterangan-lokasi" type="text" placeholder="Keterangan Lokasi" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="provinsi" type="text" placeholder="Provinsi" required>
+						<input name="nilai-simpangan-uji-dosimetri" type="text" placeholder="Nilai Simpangan Uji Dosimetri" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="kode-pos" type="number" placeholder="Kode Pos" required>
-					  </div>
-					</div>
-				</div>
-				<div class="mui-row">
-					<div class="mui-col-xs-12 mui-col-md-6">
-					  <legend>Profil Radiolog</legend>
-					  <div class="mui-textfield">
-						<input name="gelar" type="text" placeholder="Gelar" required>
+						<input name="jenis-pemeriksaan" type="text" placeholder="Jenis Pemeriksaan" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="gelar-lainnya" type="text" placeholder="Sebutkan jika 'lainnya'">
-					  </div>
-					  <div class="mui-textfield">
-						<input name="nama-awal" type="text" placeholder="Nama Awal" required>
-					  </div>
-					  <div class="mui-textfield">
-						<input name="nama-akhir" type="text" placeholder="Nama Akhir">
+						<input name="periode-data" type="text" placeholder="Periode Data" required>
 					  </div>
 					</div>
 					<div class="mui-col-xs-12 mui-col-md-6">
-					  <legend>Kontak Radiolog</legend>
+					  <legend>Setting</legend>
 					  <div class="mui-textfield">
-						<input name="telpon-kantor" type="number" placeholder="Telp. Kantor" required>
+						<input name="kvp" type="text" placeholder="KVp" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="no-hp" type="number" placeholder="No. HP" required>
+						<input name="mas" type="text" placeholder="mAs" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="fax" type="text" placeholder="Fax" required>
+						<input name="pitch" type="text" placeholder="Pitch" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="email" type="text" placeholder="Email" required>
-					  </div>
-					</div>
-				</div>
-				<div class="mui-row">
-					<div class="mui-col-xs-12 mui-col-md-6">
-					  <legend>Profil Akun User</legend>
-					  <div class="mui-textfield">
-						<input name="gelar-akun" type="text" placeholder="Gelar" required>
+						<input name="contrast" type="text" placeholder="Contrast" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="gelar-lainnya-akun" type="text" placeholder="Sebutkan jika 'lainnya'">
+						<input name="dose-modulation" type="text" placeholder="Dose Modulation" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="nama-awal-akun" type="text" placeholder="Nama Awal" required>
+						<input name="ctdi" type="text" placeholder="CTDI" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="nama-akhir-akun" type="text" placeholder="Nama Akhir">
+						<input name="rotation-time" type="text" placeholder="Rotation Time" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="jabatan-akun" type="text" placeholder="Jabatan">
-					  </div>
-					</div>
-					<div class="mui-col-xs-12 mui-col-md-6">
-					  <legend>Kontak Akun User</legend>
-					  <div class="mui-textfield">
-						<input name="telpon-kantor-akun" type="number" placeholder="Telp. Kantor" required>
+						<input name="heical-or-axial" type="text" placeholder="Heilcal Or Axial" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="no-hp-akun" type="number" placeholder="No. HP" required>
+						<input name="detector-configuration" type="text" placeholder="Detector Configuration" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="fax-akun" type="text" placeholder="Fax" required>
+						<input name="iterative-reconstruction" type="text" placeholder="Iterative Reconstruction" required>
 					  </div>
 					  <div class="mui-textfield">
-						<input name="email-akun" type="text" placeholder="Email" required>
+						<input name="slice-with-reconstruction" type="text" placeholder="Slice with Reconstruction" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="reconstruction-algorithm" type="text" placeholder="Reconstruction Algorithm" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="scan-field-of-view" type="text" placeholder="Scan field of view (cm)" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="beam-shaping-filter" type="text" placeholder="Beam Shaping Filter" required>
+					  </div>
+					  <div class="mui-textfield">
+						<input name="noise-index" type="text" placeholder="Noise Index" required>
 					  </div>
 					</div>
 				</div>
